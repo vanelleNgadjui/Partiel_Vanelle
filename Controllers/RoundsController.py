@@ -14,7 +14,6 @@ class RoundsController:
         self.matchController = MatchController()
         self.matchView = MatchView()
         self.roundsView = RoundsView()
-
     def shuffle_players_randomly(self, players):
         """
         Mélange la liste des joueurs de manière aléatoire.
@@ -169,7 +168,7 @@ class RoundsController:
         while True:
             user_choice = self.roundsView.ask_for_next_round()
             if user_choice == 'o':
-                self.play_round()  # On rappelle la fonction
+                self.play_round()  # On rappelle la fonction en récursif
                 break
             elif user_choice == 'n':
                 break

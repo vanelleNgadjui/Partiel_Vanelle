@@ -10,7 +10,6 @@ class PlayerController:
         self.last_name = None
         self.birth_date = None
         self.national_chess_id = None
-
     def add_player(self):
         """
         Demande les informations du joueur via la vue, crée une instance du joueur et l'enregistre.

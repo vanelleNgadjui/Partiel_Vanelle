@@ -17,6 +17,7 @@ class ReportController:
         sorted_players = sorted(players, key=lambda x: (x['last_name'], x['first_name']))
         return sorted_players
 
+
     def list_tournaments(self):
         """
         Charge et retourne la liste des tournois depuis le modèle de rapport.
@@ -72,6 +73,7 @@ class ReportController:
         tournament = self.select_tournament_from_list()
         return tournament['name'], tournament['round_list'], tournament['id']
 
+
     def get_tournament_players_sorted(self, tournament_id):
         """
         Charge et retourne la liste des joueurs pour un tournoi spécifié, triée par leur score en ordre décroissant.
@@ -89,3 +91,4 @@ class ReportController:
             if tournament["id"] == tournament_id:
                 return sorted(tournament["player_list"], key=lambda x: x["score"], reverse=True)
         return []
+
