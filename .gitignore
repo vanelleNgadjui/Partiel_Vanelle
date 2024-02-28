@@ -1,0 +1,13 @@
+# .gitignore
+
+# Environnement virtuel
+venv/
+env/
+.venv/
+project-env/
+
+# Cache et fichiers temporaires
+__pycache__/
+*.pyc
+*.pyo
+*~

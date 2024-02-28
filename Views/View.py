@@ -2,7 +2,6 @@ import re
 
 
 class View:
-
     def is_valid_date(self, date):
         """
         Vérifie si la chaîne de caractères fournie est une date valide au format JJ/MM/AAAA.
@@ -13,7 +12,7 @@ class View:
         Returns:
             bool: True si la date est valide, sinon False.
         """
-        return re.fullmatch(r'\d{2}/\d{2}/\d{4}', date) is not None
+        return re.fullmatch(r"\d{2}/\d{2}/\d{4}", date) is not None
 
     def is_valid_id(self, id):
         """
@@ -25,7 +24,7 @@ class View:
         Returns:
             bool: True si l'ID est valide, sinon False.
         """
-        return re.fullmatch(r'[A-Za-z]{2}\d{5}', id) is not None
+        return re.fullmatch(r"[A-Za-z]{2}\d{5}", id) is not None
 
     def is_valid_alpha(self, input_string):
         """
@@ -37,7 +36,7 @@ class View:
         Returns:
             bool: True si la chaîne est valide, sinon False.
         """
-        return re.fullmatch(r'[A-Za-zÀ-ÖØ-öø-ÿ\s]{2,}', input_string) is not None
+        return re.fullmatch(r"[A-Za-zÀ-ÖØ-öø-ÿ\s]{2,}", input_string) is not None
 
     def is_valid_int(self, input_string):
         """
@@ -83,7 +82,9 @@ class View:
             if self.is_valid_alpha(input_string):
                 return input_string
             else:
-                print("Entrée invalide. Réessayez avec au moins deux caractères alphabétiques.")
+                print(
+                    "Entrée invalide. Réessayez avec au moins deux caractères alphabétiques."
+                )
 
     def get_valid_int_input(self, prompt, default_value=None):
         """

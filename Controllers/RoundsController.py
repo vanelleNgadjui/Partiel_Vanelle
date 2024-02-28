@@ -14,6 +14,7 @@ class RoundsController:
         self.matchController = MatchController()
         self.matchView = MatchView()
         self.roundsView = RoundsView()
+
     def shuffle_players_randomly(self, players):
         """
         Mélange la liste des joueurs de manière aléatoire.
@@ -37,10 +38,10 @@ class RoundsController:
         Returns:
             list: Liste des joueurs triés par score.
         """
-        scores = set(player['score'] for player in players)
+        scores = set(player["score"] for player in players)
         sorted_players = []
         for score in sorted(scores, reverse=True):
-            players_with_same_score = [p for p in players if p['score'] == score]
+            players_with_same_score = [p for p in players if p["score"] == score]
             shuffle(players_with_same_score)
             sorted_players.extend(players_with_same_score)
         return sorted_players
@@ -53,7 +54,7 @@ class RoundsController:
             list: Liste des tournois ou une liste vide en cas d'erreur.
         """
         try:
-            with open('data/tournaments.json', 'r') as f:
+            with open("data/tournaments.json", "r") as f:
                 tournaments = json.load(f)
             return tournaments
         except FileNotFoundError:
@@ -76,10 +77,16 @@ class RoundsController:
         """
         results = []
         for idx, match in enumerate(matches, start=1):
-            user_choice = self.matchView.display_match_results(match, idx, current_round)
+            user_choice = self.matchView.display_match_results(
+                match, idx, current_round
+            )
 
-            player1_fullname = match.player1['first_name'] + ' ' + match.player1['last_name']
-            player2_fullname = match.player2['first_name'] + ' ' + match.player2['last_name']
+            player1_fullname = (
+                match.player1["first_name"] + " " + match.player1["last_name"]
+            )
+            player2_fullname = (
+                match.player2["first_name"] + " " + match.player2["last_name"]
+            )
 
             if user_choice == 1:
                 match_data = ([player1_fullname, 1], [player2_fullname, 0])
@@ -104,9 +111,12 @@ class RoundsController:
             for player_data in match:
                 player_fullname = player_data[0]
                 score = player_data[1]
-                for player in selected_tournament['player_list']:
-                    if player['first_name'] + ' ' + player['last_name'] == player_fullname:
-                        player['score'] += score
+                for player in selected_tournament["player_list"]:
+                    if (
+                        player["first_name"] + " " + player["last_name"]
+                        == player_fullname
+                    ):
+                        player["score"] += score
                         break
 
     def play_round(self):
@@ -122,8 +132,14 @@ class RoundsController:
         tournament_id = self.tournamentView.select_tournament(tournaments)
 
         # Charger le tournoi sélectionné
-        selected_tournament = next((tournament for tournament in tournaments if tournament['id'] == tournament_id),
-                                   None)
+        selected_tournament = next(
+            (
+                tournament
+                for tournament in tournaments
+                if tournament["id"] == tournament_id
+            ),
+            None,
+        )
         if not selected_tournament:
             print("Tournoi non trouvé.")
             return
@@ -134,15 +150,19 @@ class RoundsController:
 
         print(f"Vous avez sélectionné le tournoi {selected_tournament['name']}.")
 
-        if not selected_tournament['round_list']:
-            players_for_round = self.shuffle_players_randomly(selected_tournament['player_list'])
+        if not selected_tournament["round_list"]:
+            players_for_round = self.shuffle_players_randomly(
+                selected_tournament["player_list"]
+            )
         else:
-            players_for_round = self.sort_players_by_score(selected_tournament['player_list'])
+            players_for_round = self.sort_players_by_score(
+                selected_tournament["player_list"]
+            )
 
         pairs = self.matchController.create_match_pairs(players_for_round)
         matches = self.matchController.create_matches(pairs)
 
-        if not selected_tournament['round_list']:
+        if not selected_tournament["round_list"]:
             current_round = 1
         else:
             last_round = selected_tournament["round_list"][-1]["Round"]
@@ -155,11 +175,8 @@ class RoundsController:
         match_results = self.get_match_results(matches, current_round)
         self.update_player_scores(selected_tournament, match_results)
 
-        round_data = {
-            "Round": current_round,
-            "matches": match_results
-        }
-        selected_tournament['round_list'].append(round_data)
+        round_data = {"Round": current_round, "matches": match_results}
+        selected_tournament["round_list"].append(round_data)
         selected_tournament["current_round"] += 1
 
         # Update the tournament data in the file
@@ -167,10 +184,10 @@ class RoundsController:
 
         while True:
             user_choice = self.roundsView.ask_for_next_round()
-            if user_choice == 'o':
+            if user_choice == "o":
                 self.play_round()  # On rappelle la fonction en récursif
                 break
-            elif user_choice == 'n':
+            elif user_choice == "n":
                 break
             else:
                 print("Réponse non reconnue. Veuillez répondre par 'o' ou 'n'.")

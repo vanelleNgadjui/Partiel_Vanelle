@@ -14,9 +14,10 @@ class ReportController:
         """
         report = Report()
         players = report.load_players()
-        sorted_players = sorted(players, key=lambda x: (x['last_name'], x['first_name']))
+        sorted_players = sorted(
+            players, key=lambda x: (x["last_name"], x["first_name"])
+        )
         return sorted_players
-
 
     def list_tournaments(self):
         """
@@ -59,8 +60,10 @@ class ReportController:
             list: Liste des joueurs du tournoi triés par ordre alphabétique.
         """
         tournament = self.select_tournament_from_list()
-        players = tournament['player_list']
-        sorted_players = sorted(players, key=lambda x: (x['last_name'], x['first_name']))
+        players = tournament["player_list"]
+        sorted_players = sorted(
+            players, key=lambda x: (x["last_name"], x["first_name"])
+        )
         return sorted_players
 
     def get_tournament_rounds_and_matches(self):
@@ -71,8 +74,7 @@ class ReportController:
             tuple: Tuple contenant le nom du tournoi, la liste de ses tours et son ID.
         """
         tournament = self.select_tournament_from_list()
-        return tournament['name'], tournament['round_list'], tournament['id']
-
+        return tournament["name"], tournament["round_list"], tournament["id"]
 
     def get_tournament_players_sorted(self, tournament_id):
         """
@@ -89,6 +91,7 @@ class ReportController:
 
         for tournament in tournaments:
             if tournament["id"] == tournament_id:
-                return sorted(tournament["player_list"], key=lambda x: x["score"], reverse=True)
+                return sorted(
+                    tournament["player_list"], key=lambda x: x["score"], reverse=True
+                )
         return []
-

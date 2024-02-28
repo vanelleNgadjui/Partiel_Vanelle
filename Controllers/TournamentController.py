@@ -15,15 +15,23 @@ class TournamentController:
         """
         Crée un tournoi en récupérant les informations nécessaires depuis la vue du tournoi, puis le sauvegarde.
         """
-        name, location, start_date, end_date, rounds, description = self.tournamentView.get_tournament_info()
-        self.tournament = (
-            Tournament(name=name,
-                       location=location,
-                       start_date=start_date,
-                       end_date=end_date,
-                       rounds=rounds,
-                       current_round=1,
-                       description=description))
+        (
+            name,
+            location,
+            start_date,
+            end_date,
+            rounds,
+            description,
+        ) = self.tournamentView.get_tournament_info()
+        self.tournament = Tournament(
+            name=name,
+            location=location,
+            start_date=start_date,
+            end_date=end_date,
+            rounds=rounds,
+            current_round=1,
+            description=description,
+        )
         self.tournament.save_tournament()
 
     def add_player_to_tournament(self):
@@ -45,21 +53,21 @@ class TournamentController:
 
         selected_tournament = None
         for tournament in tournaments:
-            if tournament['id'] == selected_tournament_id:
+            if tournament["id"] == selected_tournament_id:
                 selected_tournament = tournament
                 break
 
         if selected_tournament is None:
-            print('Tournoi introuvable')
+            print("Tournoi introuvable")
             return
 
         # Verification de tournoi complet
-        registered_players = len(selected_tournament['player_list'])
-        max_players = selected_tournament['rounds'] * 2
+        registered_players = len(selected_tournament["player_list"])
+        max_players = selected_tournament["rounds"] * 2
         print(f"registered_players = {registered_players}")
         print(f"max_players = {max_players}")
         if registered_players >= max_players:
-            print('Le tournoi est complet.')
+            print("Le tournoi est complet.")
             return
 
         # Boucle pour la sélection du joueur
@@ -70,16 +78,20 @@ class TournamentController:
                 selected_player = players[player_index]
 
                 # Ajouter le joueur sélectionné au tournoi
-                if selected_player['id'] in [player['id'] for player in selected_tournament['player_list']]:
-                    print('Joueur déjà enregistré pour ce tournoi')
+                if selected_player["id"] in [
+                    player["id"] for player in selected_tournament["player_list"]
+                ]:
+                    print("Joueur déjà enregistré pour ce tournoi")
                 else:
-                    selected_player['score'] = 0
-                    selected_tournament['player_list'].append(selected_player)
+                    selected_player["score"] = 0
+                    selected_tournament["player_list"].append(selected_player)
 
                     # Mettre à jour le tournoi dans le fichier JSON
                     self.tournament.update_tournament(selected_tournament)
 
                     # Demander à l'utilisateur s'il souhaite ajouter un autre joueur
-                    add_another = input("Souhaitez-vous ajouter un nouveau joueur à ce tournoi ? o/n: ")
-                    if add_another.lower() != 'o':
+                    add_another = input(
+                        "Souhaitez-vous ajouter un nouveau joueur à ce tournoi ? o/n: "
+                    )
+                    if add_another.lower() != "o":
                         break  # Sortir de la boucle après avoir ajouté le joueur

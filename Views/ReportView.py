@@ -14,7 +14,9 @@ class ReportView:
         """
         print("\nListe des joueurs par ordre alphabétique:")
         for player in players:
-            print(f"{player['last_name']} {player['first_name']} (INE: {player['national_chess_id']})")
+            print(
+                f"{player['last_name']} {player['first_name']} (INE: {player['national_chess_id']})"
+            )
 
     def display_tournaments(self, tournaments):
         """
@@ -25,7 +27,7 @@ class ReportView:
         """
         print("\nListe de tous les tournois :")
         for tournament in tournaments:
-            print(tournament['name'])
+            print(tournament["name"])
 
     def display_tournament_infos(self, tournament):
         """
@@ -49,7 +51,9 @@ class ReportView:
         """
         print("\nListe des joueurs du tournoi par ordre alphabétique:")
         for player in players:
-            print(f"{player['last_name']} {player['first_name']} (INE: {player['national_chess_id']})")
+            print(
+                f"{player['last_name']} {player['first_name']} (INE: {player['national_chess_id']})"
+            )
 
     def display_rounds_and_matches(self, tournament_name, rounds_list, players_sorted):
         """
@@ -63,7 +67,7 @@ class ReportView:
         print(f"\n{tournament_name}\n")
         for round_info in rounds_list:
             print(f"ROUND {round_info['Round']}\n")
-            for idx, match in enumerate(round_info['matches']):
+            for idx, match in enumerate(round_info["matches"]):
                 player1, score1 = match[0]
                 player2, score2 = match[1]
                 print(f"MATCH {idx + 1}")
@@ -86,4 +90,6 @@ class ReportView:
         """
         print("\nClassement des joueurs dans le tournoi :\n")
         for index, player in enumerate(players, start=1):
-            print(f"{index}. {player['first_name']} {player['last_name']} - Score: {player['score']}")
+            print(
+                f"{index}. {player['first_name']} {player['last_name']} - Score: {player['score']}"
+            )
